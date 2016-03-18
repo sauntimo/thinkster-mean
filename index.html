@@ -1,0 +1,77 @@
+<html>
+	<head>
+		<title>Flapper News</title>
+
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.18/angular-ui-router.min.js"></script>
+		<script src="app.js"></script>
+
+		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+		
+		<style>
+			.posts{
+				margin: 20px;
+			}
+
+			.glyphicon-thumbs-up{
+				cursor: pointer;
+			}
+
+			.post{
+				font-size: 20px;
+				margin-left: 10px;
+			}
+
+			form{
+				margin: 20px;
+			}
+		</style>
+
+	</head>
+	
+	<body ng-app="flapperNews">
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+				<ui-view></ui-view>
+			</div>
+		</div>
+		
+		<script type="text/ng-template" id="/home.html">
+			<div class="page-header">
+				<h1>Flapper News</h1>
+			</div>
+
+			<div class="posts">
+				<div class="post" ng-repeat="post in posts | orderBy: '-upvotes'">
+					<span class="glyphicon glyphicon-thumbs-up" ng-click="incrementUpvotes(post)"></span>
+					{{post.upvotes}}
+					<span class="post">
+						<a ng-show="post.link" href="{{post.link}}">{{post.title}}</a>
+						<span ng-hide="post.link">{{post.title}}</span>
+					</span>
+				</div>
+			</div>
+
+			<form ng-submit="addPost()">
+				<h3>Add a new post</h3>
+				
+				<div class="form-group">
+					<input type="text" 
+					class="form-control"
+					placeholder="Title"
+					ng-model="title"></input>
+				</div>
+
+				<div class="form-group">
+					<input type="text" 
+					class="form-control"
+					placeholder="Link"
+					ng-model="link"></input>
+				</div>
+
+				<button type="submit" class="btn btn-primary">Post</button>
+			</form>
+		</script>
+
+	</body>
+</html>
