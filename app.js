@@ -21,12 +21,9 @@ app.config([
 			$urlRouterProvider.otherwise('home');
 }]);
 
-app.factory('posts' [function(){
+app.factory('posts', [function(){
 	var o = {
-		posts: [
-			{title: 'post 1', upvotes: 5},
-			{title: 'post 2', upvotes: 2}
-		]
+		posts: []
 	};
 	return o;
 }]);
@@ -42,7 +39,11 @@ app.controller('MainCtrl', [ '$scope', 'posts', function($scope, posts){
 		$scope.posts.push({
 			title: $scope.title,
 			link: $scope.link,
-			upvotes: 0
+			upvotes: 0,
+			comments: [
+				{author: 'Joe', body: 'Cool post!', upvotes: 0},
+				{author: 'Bob', body: 'Great idea but everything is wrong!', upvotes: 0}
+			]
 		});
 		
 		$scope.title = '';
@@ -62,5 +63,16 @@ app.controller('PostsCtrl',[
 	'posts',
 	function($scope, $stateparams, posts){
 
-}]);
+		$scope.post = posts.posts[$stateparams.id];
 
+		$scope.addComment = function(){
+			if($scope.body === '') { return; }
+			$scope.post.comments.push({
+				body: $scope.body,
+				author: 'user',
+				upvotes: 0
+			});
+			$scope.body = '';
+		};
+
+}]);
